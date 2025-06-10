@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>户用光伏报价计算器</title>
+    <style>
+        * { box-sizing: border-box; font-family: -apple-system, sans-serif; }
+        body { max-width: 800px; margin: 20px auto; padding: 20px; background-color: #f8f9fa; }
+        .section { background: white; border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        h2 { color: #333; border-bottom: 2px solid #4CAF50; padding-bottom: 10px; }
+        .result { font-size: 1.5em; font-weight: bold; color: #e91e63; background: #fff9c4; padding: 15px; border-radius: 8px; text-align: center; }
+        button { background: #4CAF50; color: white; border: none; padding: 12px 24px; font-size: 18px; border-radius: 5px; cursor: pointer; width: 100%; }
+        button:hover { background: #45a049; }
+        select, input { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ddd; border-radius: 4px; }
+        .flex-container { display: flex; gap: 15px; }
+        .flex-item { flex: 1; }
+        label { display: block; margin: 10px 0 5px; }
+        .note { font-size: 0.9em; color: #666; }
+    </style>
+</head>
+<body>
+    <h1>太阳能系统报价计算器</h1>
+    
+    <!-- 组件选择 -->
+    <div class="section">
+        <h2>1. 光伏组件</h2>
+        <label>选择组件类型：</label>
+        <select id="componentType">
+            <option value="1660">BC全黑445W组件 (¥1660/个)</option>
+            <option value="1000">全黑440W组件 (¥1000/个)</option>
+        </select>
+        <label>组件数量：</label>
+        <input type="number" id="componentCount" min="1" value="1">
+    </div>
+    
+    <!-- 优化器 -->
+    <div class="section">
+        <h2>2. 优化器</h2>
+        <label>选择优化器：</label>
+        <select id="optimizer">
+            <option value="0">不使用优化器</option>
+            <option value="670">使用优化器 (¥670/个)</option>
+        </select>
+    </div>
+    
+    <!-- 逆变器 -->
+    <div class="section">
+        <h2>3. 逆变器</h2>
+        <label>逆变器类型：</label>
+        <select id="inverterType">
+            <option value="photovoltaic">光伏逆变器</option>
+            <option value="storage">储能逆变器</option>
+        </select>
+        
+        <div id="photovoltaicOptions">
+            <label>选择光伏逆变器型号：</label>
+            <select>
+                <option value="2880">12kW (¥2,880)</option>
+                <option value="2980">15kW (¥2,980)</option>
+                <option value="3380">20kW (¥3,380)</option>
+                <option value="3680">25kW (¥3,680)</option>
+            </select>
+        </div>
+        
+        <div id="storageOptions" style="display:none">
+            <label>选择储能逆变器型号：</label>
+            <select>
+                <option value="17500">6kW (¥17,500)</option>
+                <option value="23500">8kW (¥23,500)</option>
+                <option value="28500">10kW (¥28,500)</option>
+                <option value="33000">15kW (¥33,000)</option>
+                <option value="44000">20kW (¥44,000)</option>
+                <option value="52000">25kW (¥52,000)</option>
+            </select>
+        </div>
+    </div>
+    
+    <!-- 储能电池 -->
+    <div class="section">
+        <h2>4. 储能电池</h2>
+        <label>储能度数（5-40度，每5度递增）：</label>
+        <input type="number" id="batteryCapacity" min="5" max="40" step="5" value="5">
+        <p class="note">注：每5度电需要1个电池模组 (¥18,500)，每个系统需1个开关盒 (¥10,500)</p>
+    </div>
+    
+    <!-- 并网箱 -->
+    <div class="section">
+        <h2>5. 并网箱</h2>
+        <label>选择并网箱类型：</label>
+        <select id="gridBox">
+            <option value="1400">户用光伏并网箱 (¥1,400)</option>
+            <option value="2850">别墅智能并网箱 (¥2,850)</option>
+        </select>
+    </div>
+    
+    <!-- 充电桩 -->
+    <div class="section">
+        <h2>6. 充电桩</h2>
+        <label>充电桩类型：</label>
+        <select id="charger">
+            <option value="0">不需要充电桩</option>
+            <option value="1990">7KW充电桩 (¥1,990)</option>
+        </select>
+        
+        <div>
+            <label><input type="checkbox" id="pillar"> 加配立柱 (+¥590)</label>
+        </div>
+        
+        <div>
+            <label><input type="checkbox" id="cover"> 户外遮挡罩 (+¥500)</label>
+        </div>
+    </div>
+    
+    <!-- 结果显示 -->
+    <div class="result">总报价：¥<span id="totalPrice">0</span></div>
+    
+    <!-- 计算按钮 -->
+    <button onclick="calculate()">计算报价</button>
+
+    <script>
+        // 切换逆变器选项显示
+        document.getElementById('inverterType').addEventListener('change', function() {
+            const type = this.value;
+            document.getElementById('photovoltaicOptions').style.display = 
+                type === 'photovoltaic' ? 'block' : 'none';
+            document.getElementById('storageOptions').style.display = 
+                type === 'storage' ? 'block' : 'none';
+        });
+        
+        // 计算函数
+        function calculate() {
+            // 组件价格
+            const compType = parseFloat(document.getElementById('componentType').value);
+            const compCount = parseInt(document.getElementById('componentCount').value) || 0;
+            const compPrice = compType * compCount;
+            
+            // 优化器价格
+            const optimizerPrice = parseFloat(document.getElementById('optimizer').value) * compCount;
+            
+            // 逆变器价格
+            const inverterType = document.getElementById('inverterType').value;
+            let inverterPrice = 0;
+            if (inverterType === 'photovoltaic') {
+                inverterPrice = parseFloat(document.querySelector('#photovoltaicOptions select').value);
+            } else {
+                inverterPrice = parseFloat(document.querySelector('#storageOptions select').value);
+            }
+            
+            // 电池价格
+            const batteryCapacity = parseInt(document.getElementById('batteryCapacity').value) || 0;
+            const batteryModules = batteryCapacity / 5;
+            const batteryPrice = 10500 + (batteryModules * 18500);
+            
+            // 并网箱价格
+            const gridBoxPrice = parseFloat(document.getElementById('gridBox').value);
+            
+            // 充电桩价格
+            const chargerPrice = parseFloat(document.getElementById('charger').value);
+            const pillarPrice = document.getElementById('pillar').checked ? 590 : 0;
+            const coverPrice = document.getElementById('cover').checked ? 500 : 0;
+            const chargerTotal = chargerPrice + pillarPrice + coverPrice;
+            
+            // 计算总价
+            const totalPrice = compPrice + optimizerPrice + inverterPrice + 
+                              batteryPrice + gridBoxPrice + chargerTotal;
+            
+            // 显示结果
+            document.getElementById('totalPrice').textContent = 
+                totalPrice.toLocaleString('zh-CN');
+        }
+        
+        // 初始化计算
+        calculate();
+    </script>
+</body>
+</html>
