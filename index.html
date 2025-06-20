@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>熊保保家庭绿电服务报价计算器</title>
+    <title>熊保保家庭绿居服务报价计算器</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -14,7 +14,7 @@
         }
         
         body {
-            background: linear-gradient(135deg, #1a2a6c, #2a4e6c, #3a729c);
+            background: linear-gradient(135deg, #0c4b78, #1a936f);
             color: #333;
             line-height: 1.6;
             padding: 20px;
@@ -22,29 +22,45 @@
         }
         
         .container {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
         }
         
         header {
             text-align: center;
             margin-bottom: 30px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #1a936f, #0c4b78);
         }
         
         h1 {
-            color: #2c3e50;
-            font-size: 2.5rem;
+            color: #0c4b78;
+            font-size: 2.8rem;
             margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         
         .subtitle {
-            color: #3498db;
-            font-size: 1.2rem;
+            color: #1a936f;
+            font-size: 1.3rem;
             font-weight: 500;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
         }
         
         .scene-selector {
@@ -52,107 +68,148 @@
             justify-content: center;
             margin-bottom: 30px;
             gap: 20px;
+            flex-wrap: wrap;
         }
         
         .scene-btn {
             background: white;
             border: none;
-            padding: 15px 30px;
+            padding: 18px 40px;
             border-radius: 50px;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
+            flex: 1;
+            max-width: 400px;
+            text-align: left;
+        }
+        
+        .scene-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
         }
         
         .scene-btn.active {
-            background: #3498db;
+            background: linear-gradient(135deg, #0c4b78, #1a936f);
             color: white;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.5);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(12, 75, 120, 0.5);
         }
         
         .scene-btn i {
-            font-size: 1.4rem;
+            font-size: 1.8rem;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 50%;
+        }
+        
+        .scene-btn.active i {
+            background: rgba(255, 255, 255, 0.3);
         }
         
         .config-section {
-            background: rgba(255, 255, 255, 0.92);
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 15px;
-            padding: 25px;
+            padding: 30px;
             margin-bottom: 30px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(12, 75, 120, 0.1);
         }
         
         .section-title {
-            color: #2c3e50;
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #3498db;
+            color: #0c4b78;
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #1a936f;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
         }
         
         .section-title i {
-            color: #3498db;
+            color: #1a936f;
+            background: rgba(26, 147, 111, 0.1);
+            padding: 10px;
+            border-radius: 50%;
         }
         
         .config-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
         }
         
         .config-card {
             background: white;
             border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s ease;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(12, 75, 120, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .config-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, #0c4b78, #1a936f);
         }
         
         .config-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+            transform: translateY(-8px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
         }
         
         .card-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 15px;
-            color: #2c3e50;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #0c4b78;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card-title i {
+            color: #1a936f;
         }
         
         .option-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
         
         .option-label {
             display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #0c4b78;
         }
         
         select, input {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 1rem;
-            background: #f9f9f9;
-            transition: border-color 0.3s;
+            padding: 14px;
+            border: 2px solid #e0e7ef;
+            border-radius: 10px;
+            font-size: 1.05rem;
+            background: #f8fafc;
+            transition: all 0.3s;
         }
         
         select:focus, input:focus {
             outline: none;
-            border-color: #3498db;
-            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+            border-color: #1a936f;
+            box-shadow: 0 0 0 3px rgba(26, 147, 111, 0.2);
         }
         
         .radio-group {
@@ -164,115 +221,161 @@
         .radio-item {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            background: #f8fafc;
+            padding: 12px 20px;
+            border-radius: 10px;
+            border: 2px solid #e0e7ef;
+            transition: all 0.3s;
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .radio-item:hover {
+            border-color: #1a936f;
         }
         
         input[type="radio"] {
-            width: auto;
+            width: 20px;
+            height: 20px;
             margin: 0;
+            accent-color: #1a936f;
         }
         
         .result-section {
             background: rgba(255, 255, 255, 0.95);
             border-radius: 15px;
-            padding: 25px;
+            padding: 30px;
             text-align: center;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(12, 75, 120, 0.1);
+            margin-bottom: 30px;
         }
         
         .result-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin: 25px 0;
+            gap: 25px;
+            margin: 30px 0;
         }
         
         .result-card {
-            background: linear-gradient(135deg, #3498db, #2c3e50);
+            background: linear-gradient(135deg, #0c4b78, #1a936f);
             color: white;
-            border-radius: 12px;
-            padding: 20px;
+            border-radius: 15px;
+            padding: 30px 20px;
             text-align: center;
+            box-shadow: 0 8px 25px rgba(12, 75, 120, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .result-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(12, 75, 120, 0.4);
         }
         
         .result-label {
-            font-size: 1.1rem;
-            margin-bottom: 10px;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            font-weight: 500;
         }
         
         .result-value {
-            font-size: 2rem;
-            font-weight: 700;
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: 1px;
         }
         
         .discount-box {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 20px 0;
+            background: #f0f7ff;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px auto;
             display: inline-block;
             width: 100%;
-            max-width: 400px;
+            max-width: 500px;
+            border: 2px dashed #1a936f;
         }
         
         .discount-input {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
             justify-content: center;
-            margin-top: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
         }
         
         .discount-input input {
-            max-width: 120px;
+            max-width: 150px;
             text-align: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            padding: 16px;
         }
         
         .note {
-            font-size: 0.9rem;
-            color: #7f8c8d;
-            margin-top: 5px;
+            font-size: 1rem;
+            color: #1a936f;
+            margin-top: 10px;
+            font-weight: 500;
         }
         
         .calculate-btn {
-            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            background: linear-gradient(135deg, #0c4b78, #1a936f);
             color: white;
             border: none;
-            padding: 15px 40px;
-            font-size: 1.2rem;
-            font-weight: 600;
+            padding: 18px 50px;
+            font-size: 1.3rem;
+            font-weight: 700;
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.4);
-            margin-top: 10px;
+            box-shadow: 0 8px 25px rgba(12, 75, 120, 0.4);
+            margin-top: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
         }
         
         .calculate-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.6);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(12, 75, 120, 0.6);
+            background: linear-gradient(135deg, #1a936f, #0c4b78);
         }
         
         footer {
             text-align: center;
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.85);
             margin-top: 30px;
-            padding: 20px;
-            font-size: 0.9rem;
+            padding: 25px;
+            font-size: 1rem;
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: 15px;
         }
         
-        @media (max-width: 768px) {
+        @media (max-width: 992px) {
             .result-grid {
                 grid-template-columns: 1fr;
             }
             
+            .scene-btn {
+                padding: 15px 25px;
+                font-size: 1.1rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
             .config-grid {
                 grid-template-columns: 1fr;
             }
             
-            .scene-selector {
-                flex-direction: column;
-                align-items: center;
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
             }
         }
     </style>
@@ -280,16 +383,24 @@
 <body>
     <div class="container">
         <header>
-            <h1>熊保保家庭绿电服务报价计算器</h1>
-            <p class="subtitle">轻松计算您的家庭绿电系统报价</p>
+            <h1><i class="fas fa-leaf"></i> 熊保保家庭绿居服务报价计算器</h1>
+            <p class="subtitle">为您提供专业的家庭绿电解决方案，快速计算系统报价，助力绿色生活</p>
         </header>
         
         <div class="scene-selector">
             <button id="solarBtn" class="scene-btn active">
-                <i class="fas fa-sun"></i> 纯光场景
+                <i class="fas fa-sun"></i>
+                <div>
+                    <div>纯光场景</div>
+                    <div style="font-size: 0.9rem; font-weight: normal; margin-top: 5px;">仅使用太阳能组件发电</div>
+                </div>
             </button>
             <button id="storageBtn" class="scene-btn">
-                <i class="fas fa-battery-full"></i> 光储场景
+                <i class="fas fa-battery-full"></i>
+                <div>
+                    <div>光储场景</div>
+                    <div style="font-size: 0.9rem; font-weight: normal; margin-top: 5px;">太阳能发电 + 储能系统</div>
+                </div>
             </button>
         </div>
         
@@ -299,53 +410,51 @@
             
             <div class="config-grid">
                 <div class="config-card">
-                    <h3 class="card-title">组件选择</h3>
+                    <h3 class="card-title"><i class="fas fa-sun"></i> 组件选择</h3>
                     <div class="option-group">
                         <label class="option-label">组件类型</label>
                         <select id="solarComponentType">
                             <option value="1660">BC全黑445W (1660元/个)</option>
-                            <option value="1000">全黑440W (1000元/个)</option>
+                            <option value="1000">全黑445W（有栅线） (1000元/个)</option>
                         </select>
                     </div>
                     <div class="option-group">
-                        <label class="option-label">数量</label>
-                        <input type="number" id="solarComponentCount" min="0" value="0">
+                        <label class="option-label">组件数量</label>
+                        <input type="number" id="solarComponentCount" min="0" value="0" placeholder="请输入组件数量">
                     </div>
                 </div>
                 
                 <div class="config-card">
-                    <h3 class="card-title">优化器</h3>
+                    <h3 class="card-title"><i class="fas fa-microchip"></i> 优化器</h3>
                     <div class="option-group">
                         <label class="option-label">优化器选项</label>
                         <div class="radio-group">
                             <div class="radio-item">
                                 <input type="radio" name="solarOptimizer" id="solarOptimizerNo" value="0" checked>
-                                <label for="solarOptimizerNo">不选择</label>
+                                <label for="solarOptimizerNo">不选择优化器</label>
                             </div>
                             <div class="radio-item">
                                 <input type="radio" name="solarOptimizer" id="solarOptimizerYes" value="670">
-                                <label for="solarOptimizerYes">选择优化器</label>
+                                <label for="solarOptimizerYes">使用优化器 (670元/个)</label>
                             </div>
                         </div>
                     </div>
                 </div>
                 
                 <div class="config-card">
-                    <h3 class="card-title">光伏逆变器</h3>
+                    <h3 class="card-title"><i class="fas fa-bolt"></i> 光伏逆变器</h3>
                     <div class="option-group">
                         <label class="option-label">逆变器类型</label>
                         <select id="solarInverter">
-                            <option value="0">请选择</option>
-                            <option value="2880">12kW (2880元)</option>
-                            <option value="2980">15kW (2980元)</option>
-                            <option value="3380">20kW (3380元)</option>
-                            <option value="3680">25kW (3680元)</option>
+                            <option value="0">请选择逆变器</option>
+                            <option value="3880">17kW (3880元)</option>
+                            <option value="3980">25kW (3980元)</option>
                         </select>
                     </div>
                 </div>
                 
                 <div class="config-card">
-                    <h3 class="card-title">并网箱</h3>
+                    <h3 class="card-title"><i class="fas fa-box"></i> 并网箱</h3>
                     <div class="option-group">
                         <label class="option-label">并网箱类型</label>
                         <div class="radio-group">
@@ -362,17 +471,17 @@
                 </div>
                 
                 <div class="config-card">
-                    <h3 class="card-title">充电桩</h3>
+                    <h3 class="card-title"><i class="fas fa-charging-station"></i> 充电桩</h3>
                     <div class="option-group">
                         <label class="option-label">充电桩选项</label>
                         <div class="radio-group">
                             <div class="radio-item">
                                 <input type="radio" name="solarCharger" id="solarChargerNo" value="0" checked>
-                                <label for="solarChargerNo">不选择</label>
+                                <label for="solarChargerNo">不选择充电桩</label>
                             </div>
                             <div class="radio-item">
                                 <input type="radio" name="solarCharger" id="solarChargerYes" value="1990">
-                                <label for="solarChargerYes">7KW充电桩 (1990元)</label>
+                                <label for="solarChargerYes">7kW充电桩 (1990元)</label>
                             </div>
                         </div>
                     </div>
@@ -392,17 +501,17 @@
                 </div>
                 
                 <div class="config-card">
-                    <h3 class="card-title">户外遮挡罩子</h3>
+                    <h3 class="card-title"><i class="fas fa-shield-alt"></i> 户外遮挡罩</h3>
                     <div class="option-group">
-                        <label class="option-label">罩子选项</label>
+                        <label class="option-label">遮挡罩选项</label>
                         <div class="radio-group">
                             <div class="radio-item">
                                 <input type="radio" name="solarCover" id="solarCoverNo" value="0" checked>
-                                <label for="solarCoverNo">不需要</label>
+                                <label for="solarCoverNo">不需要遮挡罩</label>
                             </div>
                             <div class="radio-item">
                                 <input type="radio" name="solarCover" id="solarCoverYes" value="500">
-                                <label for="solarCoverYes">需要 (+500元)</label>
+                                <label for="solarCoverYes">需要遮挡罩 (+500元)</label>
                             </div>
                         </div>
                     </div>
@@ -416,46 +525,43 @@
             
             <div class="config-grid">
                 <div class="config-card">
-                    <h3 class="card-title">组件选择</h3>
+                    <h3 class="card-title"><i class="fas fa-sun"></i> 组件选择</h3>
                     <div class="option-group">
                         <label class="option-label">组件类型</label>
                         <select id="storageComponentType">
                             <option value="1660">BC全黑445W (1660元/个)</option>
-                            <option value="1000">全黑440W (1000元/个)</option>
+                            <option value="1000">全黑445W（有栅线） (1000元/个)</option>
                         </select>
                     </div>
                     <div class="option-group">
-                        <label class="option-label">数量</label>
-                        <input type="number" id="storageComponentCount" min="0" value="0">
+                        <label class="option-label">组件数量</label>
+                        <input type="number" id="storageComponentCount" min="0" value="0" placeholder="请输入组件数量">
                     </div>
                 </div>
                 
                 <div class="config-card">
-                    <h3 class="card-title">优化器</h3>
+                    <h3 class="card-title"><i class="fas fa-microchip"></i> 优化器</h3>
                     <div class="option-group">
                         <label class="option-label">优化器选项</label>
                         <div class="radio-group">
                             <div class="radio-item">
                                 <input type="radio" name="storageOptimizer" id="storageOptimizerNo" value="0" checked>
-                                <label for="storageOptimizerNo">不选择</label>
+                                <label for="storageOptimizerNo">不选择优化器</label>
                             </div>
                             <div class="radio-item">
                                 <input type="radio" name="storageOptimizer" id="storageOptimizerYes" value="670">
-                                <label for="storageOptimizerYes">选择优化器</label>
+                                <label for="storageOptimizerYes">使用优化器 (670元/个)</label>
                             </div>
                         </div>
                     </div>
                 </div>
                 
                 <div class="config-card">
-                    <h3 class="card-title">储能逆变器</h3>
+                    <h3 class="card-title"><i class="fas fa-bolt"></i> 储能逆变器</h3>
                     <div class="option-group">
                         <label class="option-label">逆变器类型</label>
                         <select id="storageInverter">
-                            <option value="0">请选择</option>
-                            <option value="17500">6kW (17500元)</option>
-                            <option value="23500">8kW (23500元)</option>
-                            <option value="28500">10kW (28500元)</option>
+                            <option value="0">请选择逆变器</option>
                             <option value="33000">15kW (33000元)</option>
                             <option value="44000">20kW (44000元)</option>
                             <option value="52000">25kW (52000元)</option>
@@ -464,12 +570,11 @@
                 </div>
                 
                 <div class="config-card">
-                    <h3 class="card-title">储能电池</h3>
+                    <h3 class="card-title"><i class="fas fa-car-battery"></i> 储能电池</h3>
                     <div class="option-group">
                         <label class="option-label">电池容量</label>
                         <select id="storageBattery">
-                            <option value="0">请选择</option>
-                            <option value="5">5度电</option>
+                            <option value="0">请选择电池容量</option>
                             <option value="10">10度电</option>
                             <option value="15">15度电</option>
                             <option value="20">20度电</option>
@@ -479,37 +584,40 @@
                             <option value="40">40度电</option>
                         </select>
                     </div>
+                    <div class="option-group">
+                        <label class="option-label">电池配置说明</label>
+                        <p style="background: #f0f7ff; padding: 12px; border-radius: 8px; font-size: 0.95rem;">
+                            SBH电池开关盒 (10500元) + SBH户用电池模组 (18500元/个)<br>
+                            每5度电需要1个电池模组
+                        </p>
+                    </div>
                 </div>
                 
                 <div class="config-card">
-                    <h3 class="card-title">并网箱</h3>
+                    <h3 class="card-title"><i class="fas fa-box"></i> 并网箱</h3>
                     <div class="option-group">
                         <label class="option-label">并网箱类型</label>
                         <div class="radio-group">
-                            <div class="radio-item">
-                                <input type="radio" name="storageGridBox" id="storageGridBox1" value="1400" checked>
-                                <label for="storageGridBox1">户用光伏并网箱 (1400元)</label>
-                            </div>
-                            <div class="radio-item">
-                                <input type="radio" name="storageGridBox" id="storageGridBox2" value="2850">
-                                <label for="storageGridBox2">别墅智能并网箱 (2850元)</label>
+                            <div class="radio-item" style="flex: 1; min-width: 100%;">
+                                <input type="radio" name="storageGridBox" id="storageGridBox" value="2850" checked>
+                                <label for="storageGridBox">别墅智能并网箱 (2850元)</label>
                             </div>
                         </div>
                     </div>
                 </div>
                 
                 <div class="config-card">
-                    <h3 class="card-title">充电桩</h3>
+                    <h3 class="card-title"><i class="fas fa-charging-station"></i> 充电桩</h3>
                     <div class="option-group">
                         <label class="option-label">充电桩选项</label>
                         <div class="radio-group">
                             <div class="radio-item">
                                 <input type="radio" name="storageCharger" id="storageChargerNo" value="0" checked>
-                                <label for="storageChargerNo">不选择</label>
+                                <label for="storageChargerNo">不选择充电桩</label>
                             </div>
                             <div class="radio-item">
                                 <input type="radio" name="storageCharger" id="storageChargerYes" value="1990">
-                                <label for="storageChargerYes">7KW充电桩 (1990元)</label>
+                                <label for="storageChargerYes">7kW充电桩 (1990元)</label>
                             </div>
                         </div>
                     </div>
@@ -529,17 +637,17 @@
                 </div>
                 
                 <div class="config-card">
-                    <h3 class="card-title">户外遮挡罩子</h3>
+                    <h3 class="card-title"><i class="fas fa-shield-alt"></i> 户外遮挡罩</h3>
                     <div class="option-group">
-                        <label class="option-label">罩子选项</label>
+                        <label class="option-label">遮挡罩选项</label>
                         <div class="radio-group">
                             <div class="radio-item">
                                 <input type="radio" name="storageCover" id="storageCoverNo" value="0" checked>
-                                <label for="storageCoverNo">不需要</label>
+                                <label for="storageCoverNo">不需要遮挡罩</label>
                             </div>
                             <div class="radio-item">
                                 <input type="radio" name="storageCover" id="storageCoverYes" value="500">
-                                <label for="storageCoverYes">需要 (+500元)</label>
+                                <label for="storageCoverYes">需要遮挡罩 (+500元)</label>
                             </div>
                         </div>
                     </div>
@@ -565,8 +673,8 @@
                 <div class="option-label">折扣率设置</div>
                 <p class="note">提示：9折请填9，不打折请填10</p>
                 <div class="discount-input">
-                    <input type="number" id="discountRate" min="0" max="10" step="0.1" value="10">
-                    <span>折</span>
+                    <input type="number" id="discountRate" min="0" max="10" step="0.1" value="10" placeholder="输入折扣率">
+                    <span style="font-size: 1.2rem; font-weight: 600;">折</span>
                 </div>
             </div>
             
@@ -576,7 +684,7 @@
         </div>
         
         <footer>
-            <p>© 2023 熊保保家庭绿电服务 | 报价计算器</p>
+            <p>© 2023 熊保保家庭绿居服务 | 为您提供专业的绿色能源解决方案</p>
         </footer>
     </div>
 
@@ -677,8 +785,8 @@
             const discountedPrice = total * (discountRate / 10);
             
             // 显示结果
-            document.getElementById('originalPrice').textContent = total.toFixed(2) + ' 元';
-            document.getElementById('discountedPrice').textContent = discountedPrice.toFixed(2) + ' 元';
+            document.getElementById('originalPrice').textContent = total.toLocaleString('zh-CN') + ' 元';
+            document.getElementById('discountedPrice').textContent = discountedPrice.toLocaleString('zh-CN') + ' 元';
         });
     </script>
 </body>
