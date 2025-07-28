@@ -254,7 +254,7 @@
         
         .result-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(4, 1fr);
             gap: 25px;
             margin: 30px 0;
         }
@@ -281,7 +281,7 @@
         }
         
         .result-value {
-            font-size: 2.5rem;
+            font-size: 2.0rem;
             font-weight: 800;
             letter-spacing: 1px;
         }
@@ -344,6 +344,16 @@
             background: linear-gradient(135deg, #1a936f, #0c4b78);
         }
         
+        .power-display {
+            background: #f0f7ff;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            font-weight: 600;
+            color: #0c4b78;
+            border: 1px solid #1a936f;
+        }
+        
         footer {
             text-align: center;
             color: rgba(255, 255, 255, 0.85);
@@ -354,11 +364,13 @@
             border-radius: 15px;
         }
         
-        @media (max-width: 992px) {
+        @media (max-width: 1200px) {
             .result-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, 1fr);
             }
-            
+        }
+        
+        @media (max-width: 992px) {
             .scene-btn {
                 padding: 15px 25px;
                 font-size: 1.1rem;
@@ -367,6 +379,10 @@
         
         @media (max-width: 768px) {
             .config-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .result-grid {
                 grid-template-columns: 1fr;
             }
             
@@ -384,7 +400,7 @@
     <div class="container">
         <header>
             <h1><i class="fas fa-leaf"></i> 熊保保家庭绿居服务报价计算器</h1>
-            <p class="subtitle">为您提供专业的家庭绿电解决方案，快速计算系统报价，助力绿色生活</p>
+            <p class="subtitle">为您提供专业的家庭绿电解决方案，精准计算系统报价与成本</p>
         </header>
         
         <div class="scene-selector">
@@ -414,13 +430,16 @@
                     <div class="option-group">
                         <label class="option-label">组件类型</label>
                         <select id="solarComponentType">
-                            <option value="1660">BC全黑460W (1660元/个)</option>
-                            <option value="1000">全黑445W（有栅线） (1000元/个)</option>
+                            <option value="460" data-retail="1660" data-cost="1000">BC全黑460W (零售价1660元/个)</option>
+                            <option value="445" data-retail="1000" data-cost="650">全黑445W（有栅线） (零售价1000元/个)</option>
                         </select>
                     </div>
                     <div class="option-group">
                         <label class="option-label">组件数量</label>
                         <input type="number" id="solarComponentCount" min="0" value="0" placeholder="请输入组件数量">
+                    </div>
+                    <div class="power-display">
+                        总发电功率: <span id="solarTotalPower">0</span> W
                     </div>
                 </div>
                 
@@ -434,8 +453,8 @@
                                 <label for="solarOptimizerNo">不选择优化器</label>
                             </div>
                             <div class="radio-item">
-                                <input type="radio" name="solarOptimizer" id="solarOptimizerYes" value="670">
-                                <label for="solarOptimizerYes">使用优化器 (670元/个)</label>
+                                <input type="radio" name="solarOptimizer" id="solarOptimizerYes" value="670" data-cost="350">
+                                <label for="solarOptimizerYes">使用优化器 (零售价670元/个)</label>
                             </div>
                         </div>
                     </div>
@@ -446,9 +465,9 @@
                     <div class="option-group">
                         <label class="option-label">逆变器类型</label>
                         <select id="solarInverter">
-                            <option value="0">请选择逆变器</option>
-                            <option value="3880">17kW (3880元)</option>
-                            <option value="3980">25kW (3980元)</option>
+                            <option value="0" data-cost="0">请选择逆变器</option>
+                            <option value="3880" data-cost="3350">17kW (零售价3880元)</option>
+                            <option value="3980" data-cost="3650">25kW (零售价3980元)</option>
                         </select>
                     </div>
                 </div>
@@ -459,12 +478,12 @@
                         <label class="option-label">并网箱类型</label>
                         <div class="radio-group">
                             <div class="radio-item">
-                                <input type="radio" name="solarGridBox" id="solarGridBox1" value="1400" checked>
-                                <label for="solarGridBox1">户用光伏并网箱 (1400元)</label>
+                                <input type="radio" name="solarGridBox" id="solarGridBox1" value="1400" data-cost="700" checked>
+                                <label for="solarGridBox1">户用光伏并网箱 (零售价1400元)</label>
                             </div>
                             <div class="radio-item">
-                                <input type="radio" name="solarGridBox" id="solarGridBox2" value="2850">
-                                <label for="solarGridBox2">别墅智能并网箱 (2850元)</label>
+                                <input type="radio" name="solarGridBox" id="solarGridBox2" value="2850" data-cost="1500">
+                                <label for="solarGridBox2">别墅智能并网箱 (零售价2850元)</label>
                             </div>
                         </div>
                     </div>
@@ -476,12 +495,12 @@
                         <label class="option-label">充电桩选项</label>
                         <div class="radio-group">
                             <div class="radio-item">
-                                <input type="radio" name="solarCharger" id="solarChargerNo" value="0" checked>
+                                <input type="radio" name="solarCharger" id="solarChargerNo" value="0" data-cost="0" checked>
                                 <label for="solarChargerNo">不选择充电桩</label>
                             </div>
                             <div class="radio-item">
-                                <input type="radio" name="solarCharger" id="solarChargerYes" value="1990">
-                                <label for="solarChargerYes">7kW充电桩 (1990元)</label>
+                                <input type="radio" name="solarCharger" id="solarChargerYes" value="1990" data-cost="1100">
+                                <label for="solarChargerYes">7kW充电桩 (零售价1990元)</label>
                             </div>
                         </div>
                     </div>
@@ -489,11 +508,11 @@
                         <label class="option-label">立柱选项</label>
                         <div class="radio-group">
                             <div class="radio-item">
-                                <input type="radio" name="solarPole" id="solarPoleNo" value="0" checked>
+                                <input type="radio" name="solarPole" id="solarPoleNo" value="0" data-cost="0" checked>
                                 <label for="solarPoleNo">不需要立柱</label>
                             </div>
                             <div class="radio-item">
-                                <input type="radio" name="solarPole" id="solarPoleYes" value="590">
+                                <input type="radio" name="solarPole" id="solarPoleYes" value="590" data-cost="300">
                                 <label for="solarPoleYes">需要立柱 (+590元)</label>
                             </div>
                         </div>
@@ -501,16 +520,29 @@
                 </div>
                 
                 <div class="config-card">
-                    <h3 class="card-title"><i class="fas fa-shield-alt"></i> 户外遮挡罩</h3>
+                    <h3 class="card-title"><i class="fas fa-shield-alt"></i> 安装物流费</h3>
                     <div class="option-group">
-                        <label class="option-label">遮挡罩选项</label>
+                        <label class="option-label">安装类型</label>
                         <div class="radio-group">
                             <div class="radio-item">
-                                <input type="radio" name="solarCover" id="solarCoverNo" value="0" checked>
+                                <input type="radio" name="solarInstallation" id="solarInstallationNormal" value="1.5" checked>
+                                <label for="solarInstallationNormal">普通安装 (1.5元/瓦)</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" name="solarInstallation" id="solarInstallationWater" value="1.7">
+                                <label for="solarInstallationWater">带水槽安装 (1.7元/瓦)</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="option-group">
+                        <label class="option-label">户外遮挡罩</label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" name="solarCover" id="solarCoverNo" value="0" data-cost="0" checked>
                                 <label for="solarCoverNo">不需要遮挡罩</label>
                             </div>
                             <div class="radio-item">
-                                <input type="radio" name="solarCover" id="solarCoverYes" value="500">
+                                <input type="radio" name="solarCover" id="solarCoverYes" value="500" data-cost="300">
                                 <label for="solarCoverYes">需要遮挡罩 (+500元)</label>
                             </div>
                         </div>
@@ -529,13 +561,16 @@
                     <div class="option-group">
                         <label class="option-label">组件类型</label>
                         <select id="storageComponentType">
-                            <option value="1660">BC全黑460W (1660元/个)</option>
-                            <option value="1000">全黑445W（有栅线） (1000元/个)</option>
+                            <option value="460" data-retail="1660" data-cost="1000">BC全黑460W (零售价1660元/个)</option>
+                            <option value="445" data-retail="1000" data-cost="650">全黑445W（有栅线） (零售价1000元/个)</option>
                         </select>
                     </div>
                     <div class="option-group">
                         <label class="option-label">组件数量</label>
                         <input type="number" id="storageComponentCount" min="0" value="0" placeholder="请输入组件数量">
+                    </div>
+                    <div class="power-display">
+                        总发电功率: <span id="storageTotalPower">0</span> W
                     </div>
                 </div>
                 
@@ -549,8 +584,8 @@
                                 <label for="storageOptimizerNo">不选择优化器</label>
                             </div>
                             <div class="radio-item">
-                                <input type="radio" name="storageOptimizer" id="storageOptimizerYes" value="670">
-                                <label for="storageOptimizerYes">使用优化器 (670元/个)</label>
+                                <input type="radio" name="storageOptimizer" id="storageOptimizerYes" value="670" data-cost="350">
+                                <label for="storageOptimizerYes">使用优化器 (零售价670元/个)</label>
                             </div>
                         </div>
                     </div>
@@ -561,10 +596,10 @@
                     <div class="option-group">
                         <label class="option-label">逆变器类型</label>
                         <select id="storageInverter">
-                            <option value="0">请选择逆变器</option>
-                            <option value="33000">15kW (33000元)</option>
-                            <option value="44000">20kW (44000元)</option>
-                            <option value="52000">25kW (52000元)</option>
+                            <option value="0" data-cost="0">请选择逆变器</option>
+                            <option value="33000" data-cost="18000">15kW (零售价33000元)</option>
+                            <option value="44000" data-cost="24000">20kW (零售价44000元)</option>
+                            <option value="52000" data-cost="28000">25kW (零售价52000元)</option>
                         </select>
                     </div>
                 </div>
@@ -587,7 +622,7 @@
                     <div class="option-group">
                         <label class="option-label">电池配置说明</label>
                         <p style="background: #f0f7ff; padding: 12px; border-radius: 8px; font-size: 0.95rem;">
-                            SBH电池开关盒 (10500元) + SBH户用电池模组 (18500元/个)<br>
+                            SBH电池开关盒 (零售价10500元) + SBH户用电池模组 (零售价18500元/5度电)<br>
                             每5度电需要1个电池模组
                         </p>
                     </div>
@@ -599,8 +634,8 @@
                         <label class="option-label">并网箱类型</label>
                         <div class="radio-group">
                             <div class="radio-item" style="flex: 1; min-width: 100%;">
-                                <input type="radio" name="storageGridBox" id="storageGridBox" value="2850" checked>
-                                <label for="storageGridBox">别墅智能并网箱 (2850元)</label>
+                                <input type="radio" name="storageGridBox" id="storageGridBox" value="2850" data-cost="1500" checked>
+                                <label for="storageGridBox">别墅智能并网箱 (零售价2850元)</label>
                             </div>
                         </div>
                     </div>
@@ -612,12 +647,12 @@
                         <label class="option-label">充电桩选项</label>
                         <div class="radio-group">
                             <div class="radio-item">
-                                <input type="radio" name="storageCharger" id="storageChargerNo" value="0" checked>
+                                <input type="radio" name="storageCharger" id="storageChargerNo" value="0" data-cost="0" checked>
                                 <label for="storageChargerNo">不选择充电桩</label>
                             </div>
                             <div class="radio-item">
-                                <input type="radio" name="storageCharger" id="storageChargerYes" value="1990">
-                                <label for="storageChargerYes">7kW充电桩 (1990元)</label>
+                                <input type="radio" name="storageCharger" id="storageChargerYes" value="1990" data-cost="1100">
+                                <label for="storageChargerYes">7kW充电桩 (零售价1990元)</label>
                             </div>
                         </div>
                     </div>
@@ -625,11 +660,11 @@
                         <label class="option-label">立柱选项</label>
                         <div class="radio-group">
                             <div class="radio-item">
-                                <input type="radio" name="storagePole" id="storagePoleNo" value="0" checked>
+                                <input type="radio" name="storagePole" id="storagePoleNo" value="0" data-cost="0" checked>
                                 <label for="storagePoleNo">不需要立柱</label>
                             </div>
                             <div class="radio-item">
-                                <input type="radio" name="storagePole" id="storagePoleYes" value="590">
+                                <input type="radio" name="storagePole" id="storagePoleYes" value="590" data-cost="300">
                                 <label for="storagePoleYes">需要立柱 (+590元)</label>
                             </div>
                         </div>
@@ -637,16 +672,29 @@
                 </div>
                 
                 <div class="config-card">
-                    <h3 class="card-title"><i class="fas fa-shield-alt"></i> 户外遮挡罩</h3>
+                    <h3 class="card-title"><i class="fas fa-shield-alt"></i> 安装物流费</h3>
                     <div class="option-group">
-                        <label class="option-label">遮挡罩选项</label>
+                        <label class="option-label">安装类型</label>
                         <div class="radio-group">
                             <div class="radio-item">
-                                <input type="radio" name="storageCover" id="storageCoverNo" value="0" checked>
+                                <input type="radio" name="storageInstallation" id="storageInstallationNormal" value="1.5" checked>
+                                <label for="storageInstallationNormal">普通安装 (1.5元/瓦)</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" name="storageInstallation" id="storageInstallationWater" value="1.7">
+                                <label for="storageInstallationWater">带水槽安装 (1.7元/瓦)</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="option-group">
+                        <label class="option-label">户外遮挡罩</label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" name="storageCover" id="storageCoverNo" value="0" data-cost="0" checked>
                                 <label for="storageCoverNo">不需要遮挡罩</label>
                             </div>
                             <div class="radio-item">
-                                <input type="radio" name="storageCover" id="storageCoverYes" value="500">
+                                <input type="radio" name="storageCover" id="storageCoverYes" value="500" data-cost="300">
                                 <label for="storageCoverYes">需要遮挡罩 (+500元)</label>
                             </div>
                         </div>
@@ -660,12 +708,20 @@
             
             <div class="result-grid">
                 <div class="result-card">
-                    <div class="result-label">原始总价</div>
-                    <div class="result-value" id="originalPrice">0 元</div>
+                    <div class="result-label">总体报价</div>
+                    <div class="result-value" id="totalRetail">0 元</div>
                 </div>
                 <div class="result-card">
-                    <div class="result-label">折扣后总价</div>
+                    <div class="result-label">折扣后报价</div>
                     <div class="result-value" id="discountedPrice">0 元</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">总体成本</div>
+                    <div class="result-value" id="totalCost">0 元</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">毛利率</div>
+                    <div class="result-value" id="profitMargin">0%</div>
                 </div>
             </div>
             
@@ -704,90 +760,171 @@
             document.getElementById('solarConfig').style.display = 'none';
         });
         
+        // 计算总发电功率
+        function updatePowerDisplay(scene) {
+            const prefix = scene === 'solar' ? 'solar' : 'storage';
+            const componentType = document.getElementById(`${prefix}ComponentType`);
+            const componentCount = parseFloat(document.getElementById(`${prefix}ComponentCount`).value) || 0;
+            
+            if (componentType && componentType.options[componentType.selectedIndex]) {
+                const wattage = parseFloat(componentType.value);
+                const totalPower = wattage * componentCount;
+                document.getElementById(`${prefix}TotalPower`).textContent = totalPower.toLocaleString('zh-CN');
+            }
+        }
+        
+        // 监听组件数量变化
+        document.getElementById('solarComponentCount').addEventListener('input', () => updatePowerDisplay('solar'));
+        document.getElementById('solarComponentType').addEventListener('change', () => updatePowerDisplay('solar'));
+        document.getElementById('storageComponentCount').addEventListener('input', () => updatePowerDisplay('storage'));
+        document.getElementById('storageComponentType').addEventListener('change', () => updatePowerDisplay('storage'));
+        
         // 计算功能
         document.getElementById('calculateBtn').addEventListener('click', function() {
-            let total = 0;
+            let totalRetail = 0;   // 总体报价
+            let totalCost = 0;      // 总体成本
             const discountRate = parseFloat(document.getElementById('discountRate').value) || 10;
             
             // 检查当前场景
             if (document.getElementById('solarBtn').classList.contains('active')) {
                 // 纯光场景计算
+                
                 // 组件价格
-                const componentType = parseFloat(document.getElementById('solarComponentType').value);
+                const componentType = document.getElementById('solarComponentType');
                 const componentCount = parseFloat(document.getElementById('solarComponentCount').value) || 0;
-                total += componentType * componentCount;
+                
+                if (componentType && componentType.options[componentType.selectedIndex]) {
+                    const retail = parseFloat(componentType.options[componentType.selectedIndex].dataset.retail);
+                    const cost = parseFloat(componentType.options[componentType.selectedIndex].dataset.cost);
+                    totalRetail += retail * componentCount;
+                    totalCost += cost * componentCount;
+                }
                 
                 // 优化器
-                const optimizer = document.querySelector('input[name="solarOptimizer"]:checked').value;
-                if (optimizer === '670') {
-                    total += 670 * componentCount;
+                const optimizer = document.querySelector('input[name="solarOptimizer"]:checked');
+                if (optimizer.value === '670') {
+                    const optimizerCost = parseFloat(optimizer.dataset.cost);
+                    totalRetail += 670 * componentCount;
+                    totalCost += optimizerCost * componentCount;
                 }
                 
                 // 逆变器
-                total += parseFloat(document.getElementById('solarInverter').value) || 0;
+                const inverter = document.getElementById('solarInverter');
+                if (inverter && inverter.options[inverter.selectedIndex]) {
+                    totalRetail += parseFloat(inverter.value) || 0;
+                    totalCost += parseFloat(inverter.options[inverter.selectedIndex].dataset.cost) || 0;
+                }
                 
                 // 并网箱
-                total += parseFloat(document.querySelector('input[name="solarGridBox"]:checked').value);
+                const gridBox = document.querySelector('input[name="solarGridBox"]:checked');
+                totalRetail += parseFloat(gridBox.value);
+                totalCost += parseFloat(gridBox.dataset.cost);
                 
                 // 充电桩
-                const charger = document.querySelector('input[name="solarCharger"]:checked').value;
-                total += parseFloat(charger);
+                const charger = document.querySelector('input[name="solarCharger"]:checked');
+                totalRetail += parseFloat(charger.value);
+                totalCost += parseFloat(charger.dataset.cost);
                 
                 // 充电桩立柱
-                const pole = document.querySelector('input[name="solarPole"]:checked').value;
-                total += parseFloat(pole);
+                const pole = document.querySelector('input[name="solarPole"]:checked');
+                totalRetail += parseFloat(pole.value);
+                totalCost += parseFloat(pole.dataset.cost);
                 
-                // 罩子
-                const cover = document.querySelector('input[name="solarCover"]:checked').value;
-                total += parseFloat(cover);
+                // 遮挡罩
+                const cover = document.querySelector('input[name="solarCover"]:checked');
+                totalRetail += parseFloat(cover.value);
+                totalCost += parseFloat(cover.dataset.cost);
+                
+                // 安装物流费
+                const installation = document.querySelector('input[name="solarInstallation"]:checked');
+                const power = parseFloat(document.getElementById('solarTotalPower').textContent.replace(/,/g, '')) || 0;
+                const installPrice = power * parseFloat(installation.value);
+                totalRetail += installPrice;
+                totalCost += installPrice;  // 安装成本=安装报价
+                
             } else {
                 // 光储场景计算
+                
                 // 组件价格
-                const componentType = parseFloat(document.getElementById('storageComponentType').value);
+                const componentType = document.getElementById('storageComponentType');
                 const componentCount = parseFloat(document.getElementById('storageComponentCount').value) || 0;
-                total += componentType * componentCount;
+                
+                if (componentType && componentType.options[componentType.selectedIndex]) {
+                    const retail = parseFloat(componentType.options[componentType.selectedIndex].dataset.retail);
+                    const cost = parseFloat(componentType.options[componentType.selectedIndex].dataset.cost);
+                    totalRetail += retail * componentCount;
+                    totalCost += cost * componentCount;
+                }
                 
                 // 优化器
-                const optimizer = document.querySelector('input[name="storageOptimizer"]:checked').value;
-                if (optimizer === '670') {
-                    total += 670 * componentCount;
+                const optimizer = document.querySelector('input[name="storageOptimizer"]:checked');
+                if (optimizer.value === '670') {
+                    const optimizerCost = parseFloat(optimizer.dataset.cost);
+                    totalRetail += 670 * componentCount;
+                    totalCost += optimizerCost * componentCount;
                 }
                 
                 // 逆变器
-                total += parseFloat(document.getElementById('storageInverter').value) || 0;
+                const inverter = document.getElementById('storageInverter');
+                if (inverter && inverter.options[inverter.selectedIndex]) {
+                    totalRetail += parseFloat(inverter.value) || 0;
+                    totalCost += parseFloat(inverter.options[inverter.selectedIndex].dataset.cost) || 0;
+                }
                 
                 // 储能电池
                 const batteryCapacity = parseFloat(document.getElementById('storageBattery').value) || 0;
                 if (batteryCapacity > 0) {
-                    // 每个电池开关盒10500，每个模组18500
-                    // 每个模组5度电，开关盒是必须的一个
+                    // 电池开关盒：零售价10500, 成本价5000
+                    // 电池模组：每5度电一个模组，零售价18500, 成本价10000
                     const modules = Math.ceil(batteryCapacity / 5); // 需要的模组数量
-                    total += 10500 + modules * 18500;
+                    totalRetail += 10500 + modules * 18500;
+                    totalCost += 5000 + modules * 10000;
                 }
                 
                 // 并网箱
-                total += parseFloat(document.querySelector('input[name="storageGridBox"]:checked').value);
+                const gridBox = document.querySelector('input[name="storageGridBox"]:checked');
+                totalRetail += parseFloat(gridBox.value);
+                totalCost += parseFloat(gridBox.dataset.cost);
                 
                 // 充电桩
-                const charger = document.querySelector('input[name="storageCharger"]:checked').value;
-                total += parseFloat(charger);
+                const charger = document.querySelector('input[name="storageCharger"]:checked');
+                totalRetail += parseFloat(charger.value);
+                totalCost += parseFloat(charger.dataset.cost);
                 
                 // 充电桩立柱
-                const pole = document.querySelector('input[name="storagePole"]:checked').value;
-                total += parseFloat(pole);
+                const pole = document.querySelector('input[name="storagePole"]:checked');
+                totalRetail += parseFloat(pole.value);
+                totalCost += parseFloat(pole.dataset.cost);
                 
-                // 罩子
-                const cover = document.querySelector('input[name="storageCover"]:checked').value;
-                total += parseFloat(cover);
+                // 遮挡罩
+                const cover = document.querySelector('input[name="storageCover"]:checked');
+                totalRetail += parseFloat(cover.value);
+                totalCost += parseFloat(cover.dataset.cost);
+                
+                // 安装物流费
+                const installation = document.querySelector('input[name="storageInstallation"]:checked');
+                const power = parseFloat(document.getElementById('storageTotalPower').textContent.replace(/,/g, '')) || 0;
+                const installPrice = power * parseFloat(installation.value);
+                totalRetail += installPrice;
+                totalCost += installPrice;  // 安装成本=安装报价
             }
             
-            // 计算折扣后价格
-            const discountedPrice = total * (discountRate / 10);
+            // 计算折扣后报价
+            const discountedPrice = totalRetail * (discountRate / 10);
+            
+            // 计算毛利率
+            const profitMargin = totalRetail > 0 ? ((totalRetail - totalCost) / totalRetail * 100).toFixed(2) : 0;
             
             // 显示结果
-            document.getElementById('originalPrice').textContent = total.toLocaleString('zh-CN') + ' 元';
+            document.getElementById('totalRetail').textContent = totalRetail.toLocaleString('zh-CN') + ' 元';
             document.getElementById('discountedPrice').textContent = discountedPrice.toLocaleString('zh-CN') + ' 元';
+            document.getElementById('totalCost').textContent = totalCost.toLocaleString('zh-CN') + ' 元';
+            document.getElementById('profitMargin').textContent = profitMargin + '%';
         });
+        
+        // 初始化显示
+        updatePowerDisplay('solar');
+        updatePowerDisplay('storage');
     </script>
 </body>
 </html>
