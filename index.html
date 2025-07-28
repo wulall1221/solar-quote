@@ -408,14 +408,14 @@
                 <i class="fas fa-sun"></i>
                 <div>
                     <div>纯光场景</div>
-                    <div style="font-size: 0.9rem; font-weight: normal; margin-top: 5px;">仅使用太阳能组件发电</div>
+                    <div style="font-size: 0.9rem; font-weight: normal; margin-top: 5px;">白天发电，白天用电，余电并网</div>
                 </div>
             </button>
             <button id="storageBtn" class="scene-btn">
                 <i class="fas fa-battery-full"></i>
                 <div>
                     <div>光储场景</div>
-                    <div style="font-size: 0.9rem; font-weight: normal; margin-top: 5px;">太阳能发电 + 储能系统</div>
+                    <div style="font-size: 0.9rem; font-weight: normal; margin-top: 5px;">白天发电，白天用电，夜间用储能，余电并网</div>
                 </div>
             </button>
         </div>
@@ -430,8 +430,8 @@
                     <div class="option-group">
                         <label class="option-label">组件类型</label>
                         <select id="solarComponentType">
-                            <option value="460" data-retail="1660" data-cost="1000">BC全黑460W (零售价1660元/个)</option>
-                            <option value="445" data-retail="1000" data-cost="650">全黑445W（有栅线） (零售价1000元/个)</option>
+                            <option value="460" data-retail="1660" data-cost="1000">BC全黑460W</option>
+                            <option value="445" data-retail="1000" data-cost="650">全黑445W（有栅线）</option>
                         </select>
                     </div>
                     <div class="option-group">
@@ -454,7 +454,7 @@
                             </div>
                             <div class="radio-item">
                                 <input type="radio" name="solarOptimizer" id="solarOptimizerYes" value="670" data-cost="350">
-                                <label for="solarOptimizerYes">使用优化器 (零售价670元/个)</label>
+                                <label for="solarOptimizerYes">使用优化器</label>
                             </div>
                         </div>
                     </div>
@@ -466,8 +466,8 @@
                         <label class="option-label">逆变器类型</label>
                         <select id="solarInverter">
                             <option value="0" data-cost="0">请选择逆变器</option>
-                            <option value="3880" data-cost="3350">17kW (零售价3880元)</option>
-                            <option value="3980" data-cost="3650">25kW (零售价3980元)</option>
+                            <option value="3880" data-cost="3350">17kW</option>
+                            <option value="3980" data-cost="3650">25kW</option>
                         </select>
                     </div>
                 </div>
@@ -479,11 +479,11 @@
                         <div class="radio-group">
                             <div class="radio-item">
                                 <input type="radio" name="solarGridBox" id="solarGridBox1" value="1400" data-cost="700" checked>
-                                <label for="solarGridBox1">户用光伏并网箱 (零售价1400元)</label>
+                                <label for="solarGridBox1">户用光伏并网箱</label>
                             </div>
                             <div class="radio-item">
                                 <input type="radio" name="solarGridBox" id="solarGridBox2" value="2850" data-cost="1500">
-                                <label for="solarGridBox2">别墅智能并网箱 (零售价2850元)</label>
+                                <label for="solarGridBox2">别墅智能并网箱</label>
                             </div>
                         </div>
                     </div>
@@ -500,7 +500,7 @@
                             </div>
                             <div class="radio-item">
                                 <input type="radio" name="solarCharger" id="solarChargerYes" value="1990" data-cost="1100">
-                                <label for="solarChargerYes">7kW充电桩 (零售价1990元)</label>
+                                <label for="solarChargerYes">7kW充电桩</label>
                             </div>
                         </div>
                     </div>
@@ -513,7 +513,7 @@
                             </div>
                             <div class="radio-item">
                                 <input type="radio" name="solarPole" id="solarPoleYes" value="590" data-cost="300">
-                                <label for="solarPoleYes">需要立柱 (+590元)</label>
+                                <label for="solarPoleYes">需要立柱</label>
                             </div>
                         </div>
                     </div>
@@ -526,11 +526,11 @@
                         <div class="radio-group">
                             <div class="radio-item">
                                 <input type="radio" name="solarInstallation" id="solarInstallationNormal" value="1.5" checked>
-                                <label for="solarInstallationNormal">普通安装 (1.5元/瓦)</label>
+                                <label for="solarInstallationNormal">普通安装</label>
                             </div>
                             <div class="radio-item">
                                 <input type="radio" name="solarInstallation" id="solarInstallationWater" value="1.7">
-                                <label for="solarInstallationWater">带水槽安装 (1.7元/瓦)</label>
+                                <label for="solarInstallationWater">带水槽安装</label>
                             </div>
                         </div>
                     </div>
@@ -543,7 +543,7 @@
                             </div>
                             <div class="radio-item">
                                 <input type="radio" name="solarCover" id="solarCoverYes" value="500" data-cost="300">
-                                <label for="solarCoverYes">需要遮挡罩 (+500元)</label>
+                                <label for="solarCoverYes">需要遮挡罩</label>
                             </div>
                         </div>
                     </div>
@@ -561,8 +561,8 @@
                     <div class="option-group">
                         <label class="option-label">组件类型</label>
                         <select id="storageComponentType">
-                            <option value="460" data-retail="1660" data-cost="1000">BC全黑460W (零售价1660元/个)</option>
-                            <option value="445" data-retail="1000" data-cost="650">全黑445W（有栅线） (零售价1000元/个)</option>
+                            <option value="460" data-retail="1660" data-cost="1000">BC全黑460W</option>
+                            <option value="445" data-retail="1000" data-cost="650">全黑445W（有栅线）</option>
                         </select>
                     </div>
                     <div class="option-group">
@@ -585,7 +585,7 @@
                             </div>
                             <div class="radio-item">
                                 <input type="radio" name="storageOptimizer" id="storageOptimizerYes" value="670" data-cost="350">
-                                <label for="storageOptimizerYes">使用优化器 (零售价670元/个)</label>
+                                <label for="storageOptimizerYes">使用优化器</label>
                             </div>
                         </div>
                     </div>
@@ -597,9 +597,9 @@
                         <label class="option-label">逆变器类型</label>
                         <select id="storageInverter">
                             <option value="0" data-cost="0">请选择逆变器</option>
-                            <option value="33000" data-cost="18000">15kW (零售价33000元)</option>
-                            <option value="44000" data-cost="24000">20kW (零售价44000元)</option>
-                            <option value="52000" data-cost="28000">25kW (零售价52000元)</option>
+                            <option value="33000" data-cost="18000">15kW</option>
+                            <option value="44000" data-cost="24000">20kW</option>
+                            <option value="52000" data-cost="28000">25kW</option>
                         </select>
                     </div>
                 </div>
@@ -622,7 +622,7 @@
                     <div class="option-group">
                         <label class="option-label">电池配置说明</label>
                         <p style="background: #f0f7ff; padding: 12px; border-radius: 8px; font-size: 0.95rem;">
-                            SBH电池开关盒 (零售价10500元) + SBH户用电池模组 (零售价18500元/5度电)<br>
+                            SBH电池开关盒 + SBH户用电池模组<br>
                             每5度电需要1个电池模组
                         </p>
                     </div>
@@ -635,7 +635,7 @@
                         <div class="radio-group">
                             <div class="radio-item" style="flex: 1; min-width: 100%;">
                                 <input type="radio" name="storageGridBox" id="storageGridBox" value="2850" data-cost="1500" checked>
-                                <label for="storageGridBox">别墅智能并网箱 (零售价2850元)</label>
+                                <label for="storageGridBox">别墅智能并网箱</label>
                             </div>
                         </div>
                     </div>
@@ -652,7 +652,7 @@
                             </div>
                             <div class="radio-item">
                                 <input type="radio" name="storageCharger" id="storageChargerYes" value="1990" data-cost="1100">
-                                <label for="storageChargerYes">7kW充电桩 (零售价1990元)</label>
+                                <label for="storageChargerYes">7kW充电桩</label>
                             </div>
                         </div>
                     </div>
@@ -665,7 +665,7 @@
                             </div>
                             <div class="radio-item">
                                 <input type="radio" name="storagePole" id="storagePoleYes" value="590" data-cost="300">
-                                <label for="storagePoleYes">需要立柱 (+590元)</label>
+                                <label for="storagePoleYes">需要立柱</label>
                             </div>
                         </div>
                     </div>
@@ -678,11 +678,11 @@
                         <div class="radio-group">
                             <div class="radio-item">
                                 <input type="radio" name="storageInstallation" id="storageInstallationNormal" value="1.5" checked>
-                                <label for="storageInstallationNormal">普通安装 (1.5元/瓦)</label>
+                                <label for="storageInstallationNormal">普通安装</label>
                             </div>
                             <div class="radio-item">
                                 <input type="radio" name="storageInstallation" id="storageInstallationWater" value="1.7">
-                                <label for="storageInstallationWater">带水槽安装 (1.7元/瓦)</label>
+                                <label for="storageInstallationWater">带水槽安装</label>
                             </div>
                         </div>
                     </div>
@@ -695,7 +695,7 @@
                             </div>
                             <div class="radio-item">
                                 <input type="radio" name="storageCover" id="storageCoverYes" value="500" data-cost="300">
-                                <label for="storageCoverYes">需要遮挡罩 (+500元)</label>
+                                <label for="storageCoverYes">需要遮挡罩</label>
                             </div>
                         </div>
                     </div>
